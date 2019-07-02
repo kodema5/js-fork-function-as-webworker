@@ -1,6 +1,6 @@
 # js-fork-function-as-webworker
 
-returns an async function that proxies the post-message/on-message as callbacks
+[fork.js](fork.js) returns an async function that proxies the post-message/on-message as callbacks
 to a web-worker spawned with provided function
 
 ## example

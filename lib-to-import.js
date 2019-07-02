@@ -1,0 +1,1 @@
+var mul = (a,b) => a * b

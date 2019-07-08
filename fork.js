@@ -1,6 +1,4 @@
-var fork = (function() {
-
-const fork = (fn, libs=[]) => {
+export default (fn, libs=[]) => {
     if (!fn) throw 'fn must be a function or "string"'
 
     let baseUrl = (/^.*\//).exec(document.location.href)[0]
@@ -69,13 +67,6 @@ const buildAsyncFunction = (worker) => {
 
     return fn
 }
-
-
-return fork
-
-})()
-
-
 
 
 // var add = fork((a,b) => a + b)

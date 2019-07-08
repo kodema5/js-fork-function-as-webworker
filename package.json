@@ -1,3 +1,6 @@
 {
+    "name": "js-fork-function-as-webworker",
+    "description": "fork function as web-worker",
+    "version": "0.0.1",
     "main": "fork.js"
 }

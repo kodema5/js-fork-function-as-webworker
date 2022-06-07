@@ -11,13 +11,15 @@
     <script src="https://unpkg.com/chai/chai.js"></script>
     <script src="https://unpkg.com/mocha/mocha.js"></script>
     <script type="module">
-    import {wrap} from '../src/index.js'
+    import { wrap } from '../mod.js'
     mocha.setup('bdd');
     mocha.checkLeaks();
 
     // worker as function
     {
-        let w = new Worker('./function.js', { type:'module' })
+        let w = new Worker('./function.js',
+            { type:'module' } // <---------  chrome/edge only
+        )
         let f = wrap(w)
         describe("worker as function", () => {
             it("captures output", async function () {
@@ -28,7 +30,9 @@
 
     // worker as object
     {
-        let w = new Worker('./object.js', { type:'module' })
+        let w = new Worker('./object.js',
+            { type:'module' } // <---------  chrome/edge only
+        )
         let f = wrap(w)
         describe("worker as object", () => {
             it("captures output", async function () {

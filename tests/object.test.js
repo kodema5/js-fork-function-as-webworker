@@ -9,7 +9,9 @@ import {
     it,
 } from "https://deno.land/std@0.136.0/testing/bdd.ts";
 
-import wrap from '../src/index.js'
+import { wrap } from '../mod.js'
+// import { wrap } from 'https://raw.githubusercontent.com/kodema5/waaf.js/master/mod.js'
+
 let w = new Worker(new URL("./object.js", import.meta.url).href, { type: "module" })
 let f = wrap(w)
 

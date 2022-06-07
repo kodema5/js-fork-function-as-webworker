@@ -20,7 +20,9 @@ export let wrap = (w) => {
         delete _cb[id]
 
         let { ok, err } = cb
-        return error ? err(error) : ok(data)
+        return error
+            ? err(error)
+            : ok(data)
     }
 
     return new Proxy(fn, {
@@ -51,7 +53,7 @@ export let proxy = (arg, scope=null)  => {
         Fn = arg
     }
     else {
-        throw 'please pass function/object'
+        throw new Error('please pass function/object')
     }
 
     globalThis.onmessage = function(e) {
@@ -61,11 +63,19 @@ export let proxy = (arg, scope=null)  => {
         {(async ()=> {
             var p = { id }
             try {
-                let f = Fn[fn]
-                if (!f) throw 'undefined method'
+                if (!Fn.hasOwnProperty(fn)) {
+                    throw new Error('undefined property')
+                }
 
-                let y = await (f.apply(scope || Fn, args))
-                p.data = y
+                let f = Fn[fn]
+                let isFn = typeof f === 'function'
+                p.data = isFn
+                    ? await (f.apply(scope || Fn, args))
+                    : f
+
+                if (!isFn && args.length>0) {
+                    Fn[fn] = args[0]
+                }
 
             } catch(e) {
                 p.error = e

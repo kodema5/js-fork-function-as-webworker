@@ -5,6 +5,6 @@ import { proxy } from '../mod.js'
 // importScripts("../src/proxy.js") // for FF
 
 proxy(function (a, b) {
-    if (b===0) throw 'denominator should not be 0'
+    if (b===0) throw new Error('denominator should not be 0')
     return a / b + this.c
 }, { c: 10 })

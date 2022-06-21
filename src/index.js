@@ -1,4 +1,4 @@
-// wraps function/object/worker
+// wraps function/object/string/worker
 //
 export let wrap = (w) => {
     if (w instanceof Worker) {
@@ -9,8 +9,11 @@ export let wrap = (w) => {
     if (typeof(w)==='function') {
         src = `(${proxy})(${w})`
     }
-    if (w instanceof Object && w.constructor===Object) {
+    else if (w instanceof Object && w.constructor===Object) {
         src = `(${proxy})(${toSrc(w)})`
+    }
+    else if (typeof(w)==='string') {
+        src = w
     }
     if (!src) throw new Error('unsupported type')
 

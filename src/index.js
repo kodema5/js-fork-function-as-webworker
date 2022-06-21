@@ -1,6 +1,49 @@
-// wraps worker object
+// wraps function/object/worker
 //
 export let wrap = (w) => {
+    if (w instanceof Worker) {
+        return wrap_worker(w)
+    }
+
+    let src
+    if (typeof(w)==='function') {
+        src = `(${proxy})(${w})`
+    }
+    if (w instanceof Object && w.constructor===Object) {
+        src = `(${proxy})(${toSrc(w)})`
+    }
+    if (!src) throw new Error('unsupported type')
+
+    let b = new Blob( [src],
+        { type: 'text/javascript' })
+    let u = URL.createObjectURL(b)
+    let a = new Worker(u,
+        "Deno" in globalThis
+        ? {type:'module'}
+        : {})
+
+    return wrap_worker(a)
+}
+
+// object -> source-string
+//
+let toSrc = (obj) => {
+    return `{ ${
+        Object.entries(obj)
+        .map( ([key, val]) => {
+            return `${key}:${
+                typeof(val)==='function'
+                ? val+''
+                : JSON.stringify(val)
+            }`
+        })
+        .join(',')
+    } }`
+}
+
+// wraps a worker
+//
+export let wrap_worker = (w) => {
     let _id = 0
     let _cb = {}
 
@@ -36,7 +79,6 @@ export let wrap = (w) => {
     })
 }
 
-export default wrap
 
 // proxy worker function/object
 //

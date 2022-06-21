@@ -73,6 +73,10 @@ export let wrap_worker = (w) => {
 
     return new Proxy(fn, {
         get(_, prop) {
+            if (prop === '__worker') {
+                return w
+            }
+
             return (...args) => new Promise((ok, err) => {
                 let id = ++_id
                 w.postMessage({id, fn:prop, args})

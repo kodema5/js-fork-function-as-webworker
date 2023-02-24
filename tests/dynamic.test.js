@@ -3,14 +3,10 @@
 import {
     assert,
     assertEquals,
-} from "https://deno.land/std@0.136.0/testing/asserts.ts";
-import {
     describe,
     it,
-} from "https://deno.land/std@0.136.0/testing/bdd.ts";
-
-import { wrap,  }  from '../mod.js'
-// import { wrap } from 'https://raw.githubusercontent.com/kodema5/waaf.js/master/mod.js'
+    wrap,
+}  from './deps.js'
 
 let f1 = wrap((a) => (a+1))
 let f2 = wrap({
